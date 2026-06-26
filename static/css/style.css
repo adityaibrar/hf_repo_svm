@@ -602,6 +602,7 @@ select.form-control {
 }
 
 @media (max-width: 768px) {
+  /* Result Page Mobile Styles */
   .cake-wrapper {
     max-width: 100%;
     margin: 0 auto;
@@ -624,5 +625,72 @@ select.form-control {
   }
   .stats-bottom-row {
     grid-template-columns: 1fr; /* Tumpuk text block jika layar sempit */
+  }
+  
+  /* Form Page Mobile Styles */
+  .form-container {
+    padding: 30px 20px;
+    margin: 20px auto;
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .header-section h1 {
+    font-size: 1.8rem;
+  }
+  
+  .header-section p {
+    font-size: 0.95rem;
+  }
+  
+  .back-btn-header {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+    top: 0;
+  }
+  
+  .form-group {
+    padding: 18px 15px;
+  }
+  
+  .form-control {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+  
+  .btn-submit {
+    padding: 15px;
+    font-size: 1rem;
+  }
+  
+  .btn-prev, .btn-next {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screen adjustments */
+  .side-stats-column {
+    grid-template-columns: 1fr; /* Tumpuk ke bawah lagi jika sangat sempit */
+  }
+  .cake-header {
+    padding: 0 20px 10px;
+  }
+  .cake-character-img {
+    width: 180px;
+    height: 180px;
+  }
+  .form-navigation {
+    flex-direction: column-reverse; /* Prev button below Next button */
+    gap: 12px;
+  }
+  .form-navigation .btn-prev, 
+  .form-navigation .btn-next {
+    width: 100%;
   }
 }

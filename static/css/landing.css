@@ -492,3 +492,82 @@ body {
     /* simple mobile hide for now */
   }
 }
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding-top: 100px;
+    padding-bottom: 40px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .features-section {
+    padding: 40px 20px;
+    margin: 0 15px;
+    border-radius: 20px;
+  }
+  
+  .features-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+  
+  .education-section {
+    padding: 60px 20px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .stats-section {
+    padding: 40px 20px;
+    margin: 0 15px 40px;
+    border-radius: 20px;
+  }
+  
+  .stat-box {
+    min-width: 100%;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-logo {
+    margin: 0 auto;
+    height: auto;
+    max-width: 150px;
+  }
+  
+  .footer-brand {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .footer-links {
+    justify-content: center;
+    width: 100%;
+    gap: 30px;
+  }
+}
