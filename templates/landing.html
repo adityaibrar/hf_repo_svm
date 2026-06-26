@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skrining Kesehatan Mental AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand" style="padding-top: 5px;">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/brand.png') }}" alt="MindLeaf AI"
+                    style="height: 45px; display: block;">
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="active">Beranda</a>
+            <a href="/form">Cek Kesehatan</a>
+            <a href="#edukasi">Edukasi</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <div class="badge-ai"><i class="fa-solid fa-robot"></i> AI POWERED</div>
+            <h1>Deteksi Dini Kondisi Kesehatan Mental dengan Teknologi AI</h1>
+            <p>Sistem cerdas berbasis Machine Learning (SVM) untuk mengidentifikasi tingkat Depresi, Kecemasan, dan
+                Stres Anda secara cepat, akurat, dan rahasia.</p>
+            <div class="hero-buttons">
+                <a href="/form" class="btn-primary"><i class="fa-solid fa-stethoscope"></i> Mulai Cek Kesehatan</a>
+                <a href="#edukasi" class="btn-secondary"><i class="fa-solid fa-book-open"></i> Pelajari Lebih Lanjut</a>
+            </div>
+    </header>
+
+    <!-- Fitur Section -->
+    <section class="features-section">
+        <h2>Mengapa Memilih Kami?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon-box"><i class="fa-solid fa-bullseye"></i></div>
+                <h3>Akurat</h3>
+                <p>Model AI dilatih menggunakan dataset kuesioner DASS-21 dan aktivitas digital yang tervalidasi.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-box"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Cepat</h3>
+                <p>Dapatkan hasil analisis kondisi mental dan rekomendasi Anda hanya dalam hitungan detik.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Aman & Rahasia</h3>
+                <p>Data Anda tidak disimpan secara permanen. Privasi Anda adalah prioritas utama kami.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-box"><i class="fa-solid fa-book-medical"></i></div>
+                <h3>Edukasi</h3>
+                <p>Informasi lengkap terkait tingkat stres, kecemasan, depresi, serta solusi penanganannya.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edukasi Section -->
+    <section id="edukasi" class="education-section">
+        <div class="section-header">
+            <h2>Mengenal Gangguan Kesehatan Mental</h2>
+            <p>Memahami kondisi Anda adalah langkah pertama menuju pemulihan.</p>
+        </div>
+        <div class="edu-grid">
+            <div class="edu-card depresi">
+                <h3>Depresi</h3>
+                <p>Suasana hati yang terus-menerus sedih, kehilangan minat, dan perasaan tidak berharga. Dapat
+                    memengaruhi cara berpikir dan beraktivitas sehari-hari.</p>
+            </div>
+            <div class="edu-card kecemasan">
+                <h3>Kecemasan (Anxiety)</h3>
+                <p>Perasaan khawatir, gugup, atau takut yang berlebihan. Sering kali memicu respons fisik seperti
+                    jantung berdebar atau keringat dingin.</p>
+            </div>
+            <div class="edu-card stres">
+                <h3>Stres</h3>
+                <p>Ketegangan fisik atau emosional sebagai respons terhadap tekanan atau tuntutan. Stres kronis dapat
+                    berdampak buruk pada kesehatan tubuh.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-info">
+            <h2>Skrining Awal yang Terpercaya</h2>
+            <p>Platform ini dirancang khusus sebagai alat skrining awal untuk membantu Anda mengenali kondisi kesehatan
+                mental secara mandiri. Hasil dari sistem kami dapat menjadi panduan berharga sebelum Anda berkonsultasi
+                lebih lanjut dengan tenaga medis profesional.</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <h3>21</h3>
+                <p>Indikator DASS-21</p>
+            </div>
+            <div class="stat-box">
+                <h3>12</h3>
+                <p>Faktor Aktivitas Digital</p>
+            </div>
+            <div class="stat-box">
+                <h3>3</h3>
+                <p>Deteksi Gangguan</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="{{ url_for('static', filename='images/brand_footer.png') }}" alt="MindLeaf AI"
+                    class="footer-logo">
+                <p>Platform skrining awal kesehatan mental berbasis AI. Mari kenali dirimu lebih baik sebelum
+                    berkonsultasi dengan profesional.</p>
+            </div>
+
+            <div class="footer-links">
+                <div class="link-col">
+                    <h4>Menu</h4>
+                    <a href="/">Beranda</a>
+                    <a href="/form">Cek Kesehatan</a>
+                    <a href="#edukasi">Edukasi</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MindLeaf AI. Dirancang untuk edukasi dan deteksi dini.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

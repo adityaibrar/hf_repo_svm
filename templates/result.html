@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Analisis Mental - Vibe Check</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Menggunakan CSS Variable agar IDE tidak error membaca sintaks Jinja2 */
+        body {
+            background-color: #f1fbf0 !important;
+            align-items: flex-start !important;
+            padding-top: 20px;
+        }
+
+        .cake-wrapper {
+            margin-top: 0 !important;
+        }
+
+        .cake-card {
+            background-color: var(--cake-bg);
+        }
+
+        .cake-stats-container {
+            background-color: #FFF9ED;
+            /* Beige/Cream like Cake App */
+        }
+
+        .theme-text {
+            color: var(--cake-theme);
+        }
+
+        .theme-bg {
+            background-color: var(--cake-theme);
+        }
+    </style>
+</head>
+
+<body style="--cake-bg: {{ character['bg_color'] }}; --cake-theme: {{ character['theme_color'] }};">
+    <div class="cake-wrapper">
+        <!-- The Card to be captured -->
+        <div class="cake-card" id="capture-area" data-bgcolor="{{ character['bg_color'] }}"
+            data-name="{{ character['name']|replace(' ', '_') }}">
+            <div class="cake-left-col">
+                <!-- Header section -->
+                <div class="cake-header">
+                    <div class="cake-logo"><i class="fa-solid fa-leaf"></i> Vibe Check</div>
+                    <p class="subtitle">Kamu adalah...</p>
+                    <h1 class="character-title">{{ character['name'] }}</h1>
+                    <div class="tags">
+                        {% for tag in character['tags'] %}
+                        <span class="tag">{{ tag }}</span>
+                        {% endfor %}
+                        <!-- Pindahkan Digital Footprint ke sini sebagai badge -->
+                        <span class="tag" style="background: var(--cake-theme); color: white; margin-top: 5px;">
+                            <i class="fa-solid fa-wifi" style="margin-right: 4px;"></i> Digital: {{
+                            digital_activity.upper() }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Spotlight Character Image -->
+                <div class="cake-spotlight-container">
+                    <div class="spotlight"></div>
+                    <!-- Menggunakan aset gambar minuman 3D bergaya Cake App -->
+                    <img src="{{ url_for('static', filename='images/' + character['img']) }}" alt="Character"
+                        class="cake-character-img">
+                </div>
+
+                <div
+                    style="text-align: center; margin-bottom: -15px; position: relative; z-index: 2; padding-bottom: 30px;">
+                    <p class="character-quote">{{ character['quote'] }}</p>
+                </div>
+            </div> <!-- End of cake-left-col -->
+
+            <!-- Stats Bottom Container -->
+            <div class="cake-stats-container">
+
+                <div class="stats-top-row">
+                    <!-- Radar Chart Box -->
+                    <div class="stats-box chart-box">
+                        <h3 class="box-title" style="text-align: center; font-size: 0.8rem; margin-bottom: 5px;">Dimensi
+                            Mental</h3>
+                        <div class="chart-wrapper" style="height: 260px; width: 100%; position: relative;">
+                            <canvas id="radarChart" data-dep="{{ dep }}" data-anx="{{ anx }}" data-strs="{{ strs }}"
+                                data-color="{{ character['theme_color'] }}">
+                            </canvas>
+                        </div>
+                    </div>
+
+                    <!-- Side Stats Box (Menampilkan 3 Dimensi DASS-21) -->
+                    <div class="side-stats-column">
+                        <div class="stats-box small-box">
+                            <h4 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 2px;">Tingkat
+                                Depresi</h4>
+                            <div class="theme-text"
+                                style="font-weight: 800; font-size: 0.95rem; text-transform: uppercase;">{{ dep_label }}
+                            </div>
+                        </div>
+
+                        <div class="stats-box small-box">
+                            <h4 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 2px;">Kecemasan</h4>
+                            <div class="theme-text"
+                                style="font-weight: 800; font-size: 0.95rem; text-transform: uppercase;">{{ anx_label }}
+                            </div>
+                        </div>
+
+                        <div class="stats-box small-box">
+                            <h4 style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 2px;">Tingkat Stres
+                            </h4>
+                            <div class="theme-text"
+                                style="font-weight: 800; font-size: 0.95rem; text-transform: uppercase;">{{ str_label }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Persona (Roasting 1) -->
+                <div class="stats-box full-box">
+                    <p style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">Isi
+                        Pikiran </p>
+                    <p class="roast-text-cake">
+                        {{ roast['depresi'] }} {{ roast['kecemasan'] }}
+                    </p>
+                </div>
+
+                <!-- Bottom Two Boxes -->
+                <div class="stats-bottom-row">
+                    <div class="stats-box half-box">
+                        <h4 style="font-size: 0.75rem; font-weight: 700; margin-bottom: 8px;" class="theme-text">Pola
+                            Bertahan</h4>
+                        <div class="icon-row" style="margin-bottom: 8px;">
+                            <i class="fa-solid fa-battery-half theme-text" style="font-size: 1.3rem;"></i>
+                        </div>
+                        <p style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.4;">{{ roast['stres'] }}
+                        </p>
+                    </div>
+
+                    <div class="stats-box half-box">
+                        <h4 style="font-size: 0.75rem; font-weight: 700; margin-bottom: 8px;" class="theme-text">Habit
+                            Check</h4>
+                        <div class="icon-row" style="margin-bottom: 8px;">
+                            <i class="fa-solid fa-mobile-screen theme-text" style="font-size: 1.3rem;"></i>
+                        </div>
+                        <p style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.4;">{{ bad_habits }}</p>
+                    </div>
+                </div>
+
+                <div class="watermark-footer">
+                    Vibe Check by •
+                    MindLeaf AI
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons Outside Card -->
+        <div class="cake-actions">
+            <button class="btn-download" onclick="downloadReport()">
+                <i class="fa-solid fa-download"></i> Download Hasil Tes
+            </button>
+            <button class="btn-back" onclick="window.location.href='/'">
+                Ulangi Tes
+            </button>
+        </div>
+    </div>
+
+    <!-- Script to render Chart and Download -->
+    <script>
+        // Setup Chart.js Radar
+        const canvas = document.getElementById('radarChart');
+        const ctx = canvas.getContext('2d');
+
+        // Ambil data dari atribut HTML agar IDE linter tidak error membaca Jinja2
+        const depScore = parseInt(canvas.dataset.dep);
+        const anxScore = parseInt(canvas.dataset.anx);
+        const strsScore = parseInt(canvas.dataset.strs);
+        const themeColor = canvas.dataset.color;
+
+        const radarData = {
+            labels: ['Depresi', 'Kecemasan', '     Stres     '],
+            datasets: [{
+                label: 'Skala',
+                data: [depScore, anxScore, strsScore],
+                fill: true,
+                backgroundColor: themeColor + '40',
+                borderColor: themeColor,
+                pointBackgroundColor: themeColor,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: themeColor,
+                borderWidth: 3.5,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        };
+
+        const radarOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: 5
+            },
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(0,0,0,0.12)', lineWidth: 1.5 },
+                    grid: { color: 'rgba(0,0,0,0.12)', lineWidth: 1.5 },
+                    pointLabels: {
+                        font: { size: 14, family: "'Plus Jakarta Sans', sans-serif", weight: '800' },
+                        color: '#4A5A62',
+                        padding: 8
+                    },
+                    ticks: {
+                        display: false,
+                        stepSize: 1
+                    },
+                    min: 0,
+                    max: 4
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false }
+            }
+        };
+
+        new Chart(ctx, {
+            type: 'radar',
+            data: radarData,
+            options: radarOptions
+        });
+
+        // Setup Download Feature using html2canvas
+        function downloadReport() {
+            const element = document.getElementById('capture-area');
+            const btn = document.querySelector('.btn-download');
+
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan...';
+            btn.disabled = true;
+
+            // Allow Chart animation to finish (just in case)
+            setTimeout(() => {
+                const captureArea = document.getElementById('capture-area');
+                const bgColor = captureArea.dataset.bgcolor;
+                const charName = captureArea.dataset.name;
+
+                html2canvas(element, {
+                    scale: 3, // High resolution like Cake Pro
+                    useCORS: true,
+                    backgroundColor: bgColor,
+                    logging: false,
+                    width: element.offsetWidth,
+                    height: element.offsetHeight
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'VibeCheck_Report_' + charName + '.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    console.error("Error capturing report:", err);
+                    alert("Gagal mengunduh laporan. Silakan coba lagi.");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }, 500); // 500ms delay to ensure chart rendering
+        }
+    </script>
+</body>
+
+</html>

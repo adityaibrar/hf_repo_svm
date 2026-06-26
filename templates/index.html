@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Mentalmu Bestie!</title>
+    <!-- CSS dan Font Awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=5">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="header-section">
+            <a href="/" class="back-btn-header" title="Kembali">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/brand.png') }}" alt="MindLeaf AI"
+                    style="height: 55px; margin-bottom: 15px;">
+            </a>
+            <p>Jujur sama diri sendiri, seberapa kewalahan kamu akhir-akhir ini?</p>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step-dot active" id="dot-1"></div>
+            <div class="step-dot" id="dot-2"></div>
+            <div class="step-dot" id="dot-3"></div>
+        </div>
+
+        <form action="/predict" method="POST">
+
+            <div class="form-step active" id="step-1">
+                <div class="section-title">
+                    <i class="fa-solid fa-user-astronaut"></i> Profil Singkat
+                </div>
+                <p class="section-desc">Bantu kami menyesuaikan hasil analisanya dengan profil kamu.</p>
+
+                <div class="form-group">
+                    <label>Berapa Usia Kamu?</label>
+                    <input type="number" name="Usia" class="form-control" required min="12" max="60" value="20">
+                </div>
+
+                <div class="form-group">
+                    <label>Pilih Avatar Asli Kamu</label>
+                    <select name="Jenis_Kelamin" class="form-control" required>
+                        <option value="0">Laki - laki</option>
+                        <option value="1">Perempuan</option>
+                    </select>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn-next" onclick="nextStep(1, 2)">Selanjutnya <i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div> <!-- End step 1 -->
+
+            <div class="form-step" id="step-2">
+                <div class="section-title">
+                    <i class="fa-solid fa-mobile-screen"></i> Aktivitas Digital
+                </div>
+                <p class="section-desc">Seberapa sering kamu menggunakan gadget dalam keseharian?</p>
+
+                <div class="form-group">
+                    <label>Berapa rata-rata total durasi penggunaan smartphone Anda dalam satu hari? ... Jam</label>
+                    <input type="number" step="0.5" max="24" name="Durasi_Smartphone" class="form-control" required
+                        placeholder="Contoh: 10.5">
+                </div>
+
+                <div class="form-group">
+                    <label>Platform media sosial apa yang paling sering Anda gunakan? (Bisa pilih lebih dari
+                        satu)</label>
+                    <div class="chip-group">
+                        <label class="chip">
+                            <input type="checkbox" name="Platform_Medsos" value="Whatsapp">
+                            <span>WhatsApp</span>
+                        </label>
+                        <label class="chip">
+                            <input type="checkbox" name="Platform_Medsos" value="Instagram">
+                            <span>Instagram</span>
+                        </label>
+                        <label class="chip">
+                            <input type="checkbox" name="Platform_Medsos" value="X">
+                            <span>X (Twitter)</span>
+                        </label>
+                        <label class="chip">
+                            <input type="checkbox" name="Platform_Medsos" value="Threads">
+                            <span>Threads</span>
+                        </label>
+                        <label class="chip">
+                            <input type="checkbox" name="Platform_Medsos" value="Tiktok">
+                            <span>TikTok</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Berapa rata-rata durasi Anda mengakses media sosial dalam satu hari?</label>
+                    <input type="number" step="0.5" max="24" name="Durasi_Medsos" class="form-control" required
+                        placeholder="Contoh: 6">
+                </div>
+
+                <div class="form-group">
+                    <label>Berapa rata-rata durasi Anda bermain game online dalam satu hari?</label>
+                    <input type="number" step="0.5" max="24" name="Durasi_Game" class="form-control" required
+                        placeholder="Contoh: 2">
+                </div>
+
+                <div class="form-group">
+                    <label>Berapa rata-rata durasi Anda melakukan streaming (YouTube/Netflix/Spotify/dll) dalam satu
+                        hari?</label>
+                    <input type="number" step="0.5" max="24" name="Durasi_Streaming" class="form-control" required
+                        placeholder="Contoh: 3">
+                </div>
+
+                <div class="form-group">
+                    <label>Apakah Anda sering menggunakan gadget lebih dari 30 menit tepat sebelum tidur?</label>
+                    <select name="Gadget_Sblm_Tidur" class="form-control">
+                        <option value="1">Ya</option>
+                        <option value="0">Tidak</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Sejauh mana notifikasi media sosial mengganggu konsentrasi belajar/bekerja Anda?</label>
+                    <select name="Terganggu_Notif" class="form-control" required>
+                        <option value="1">Tidak/Kurang Mengganggu</option>
+                        <option value="2" selected> Cukup Mengganggu</option>
+                        <option value="3">Sangat Mengganggu</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Apakah Anda merasa cemas/gelisah jika tidak bisa mengakses internet (kuota habis/sinyal
+                        hilang)?</label>
+                    <select name="Cemas_Tanpa_Internet" class="form-control">
+                        <option value="1">Ya</option>
+                        <option value="0">Tidak</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Pernahkah Anda menunda tugas penting (akademik/pekerjaan) karena terlalu asyik menggunakan
+                        gadget?</label>
+                    <select name="Menunda_Tugas" class="form-control">
+                        <option value="1">Ya</option>
+                        <option value="0">Tidak</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Sebutkan rata-rata waktu tidur Anda (Jam Mulai Tidur — Jam Bangun). (dalam satuan
+                        jam)</label>
+                    <input type="number" step="0.5" max="24" name="Waktu_Tidur" class="form-control" required
+                        placeholder="Contoh: 6.5">
+                </div>
+
+                <div class="form-group">
+                    <label>Dalam 1 jam, berapa kali Anda mengecek smartphone meskipun tidak ada notifikasi yang
+                        masuk?</label>
+                    <input type="number" name="Cek_HP_Tanpa_Notif" class="form-control" required value="5">
+                </div>
+
+                <div class="form-group">
+                    <label>Seberapa sering Anda hanya menggulir layar (scrolling) tanpa berinteraksi atau memposting
+                        sesuatu?</label>
+                    <select name="Doom_Scrolling" class="form-control" required>
+                        <option value="1">Jarang</option>
+                        <option value="2" selected>Sering</option>
+                        <option value="3">Sangat Sering</option>
+                    </select>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn-prev" onclick="prevStep(2, 1)"><i
+                            class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+                    <button type="button" class="btn-next" onclick="nextStep(2, 3)">Selanjutnya <i
+                            class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div> <!-- End step 2 -->
+
+            <div class="form-step" id="step-3">
+                <div class="section-title">
+                    <i class="fa-solid fa-heart-pulse"></i> Kuisioner DASS-21
+                </div>
+                <p class="section-desc">Pilih seberapa sering Anda merasakan pernyataan di bawah ini selama satu minggu
+                    terakhir. Skala 0 (Tidak Pernah) hingga 3 (Sangat Sering).</p>
+
+                <div class="form-group">
+                    <label>1. Menjadi marah karena hal sepele</label>
+                    <select name="DASS_1" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>2. Mulut terasa kering</label>
+                    <select name="DASS_2" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>3. Tidak bisa merasakan perasaan positif</label>
+                    <select name="DASS_3" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>4. Sesak napas</label>
+                    <select name="DASS_4" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>5. Sulit untuk berinisiatif</label>
+                    <select name="DASS_5" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>6. Cenderung bereaksi berlebihan</label>
+                    <select name="DASS_6" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>7. Mengalami gemetar</label>
+                    <select name="DASS_7" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>8. Merasa sangat sulit untuk bersantai</label>
+                    <select name="DASS_8" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>9. Khawatir berlebihan</label>
+                    <select name="DASS_9" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>10. Merasa tidak ada masa depan</label>
+                    <select name="DASS_10" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>11. Mudah merasa gelisah</label>
+                    <select name="DASS_11" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>12. Sangat sulit untuk merasa tenang</label>
+                    <select name="DASS_12" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>13. Merasa sedih dan tertekan</label>
+                    <select name="DASS_13" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>14. Tidak toleran terhadap hambatan</label>
+                    <select name="DASS_14" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>15. Merasa lemas seperti mau pingsan</label>
+                    <select name="DASS_15" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>16. Kehilangan minat pada hampir semua hal</label>
+                    <select name="DASS_16" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>17. Merasa diri tidak berharga</label>
+                    <select name="DASS_17" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>18. Mudah tersinggung/sensitif</label>
+                    <select name="DASS_18" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>19. Jantung berdebar meski tidak olahraga</label>
+                    <select name="DASS_19" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>20. Merasa takut tanpa alasan yang jelas</label>
+                    <select name="DASS_20" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>21. Merasa hidup tidak berarti</label>
+                    <select name="DASS_21" class="form-control" required>
+                        <option value="0">Tidak pernah</option>
+                        <option value="1">Kadang-kadang</option>
+                        <option value="2">Sering</option>
+                        <option value="3">Sangat sering</option>
+                    </select>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn-prev" onclick="prevStep(3, 2)"><i
+                            class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Analisis Tingkat Mental Saya
+                    </button>
+                </div>
+            </div> <!-- End step 3 -->
+        </form>
+    </div>
+
+    <script>
+        function showStep(step) {
+            document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.step-dot').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('step-' + step).classList.add('active');
+            document.getElementById('dot-' + step).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextStep(current, next) {
+            const currentStepEl = document.getElementById('step-' + current);
+            const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.reportValidity();
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                showStep(next);
+            }
+        }
+
+        function prevStep(current, prev) {
+            showStep(prev);
+        }
+
+        // Mencegah perubahan nilai pada input type number saat di-scroll
+        document.addEventListener("DOMContentLoaded", function () {
+            const numberInputs = document.querySelectorAll('input[type="number"]');
+            numberInputs.forEach(function (input) {
+                input.addEventListener('wheel', function (e) {
+                    e.preventDefault();
+                }, { passive: false });
+            });
+        });
+    </script>
+</body>
+
+</html>
